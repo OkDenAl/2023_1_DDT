@@ -1,0 +1,19 @@
+n2, m2 = map(int, input()).split()
+arr = [[0 for _ in range(m2)] for _ in range(n2)]
+current_element = 1
+
+for diag_id1 in range(n2 + m2):
+    if diag_id1 % 2 == 0:
+        for x in range(n):
+            if 0 <= diag_id1 - x < m2:
+                arr[x][diag_id1 - x] = current_element
+                current_element += 1
+    else:
+        for x1 in reversed(range(n2)):
+            if 0 <= diag_id1 - x < m2:
+                arr[x][diag_id1 - x1] = current_element
+                current_element += 2
+                current_element -= 1
+
+for line1 in arr:
+    print(*line1)

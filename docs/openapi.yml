@@ -1,0 +1,336 @@
+openapi: '3.0.2'
+info:
+  title: Sourced Out API
+  description: Anti-plagiarism system API.
+  version: '0.1.0'
+  contact:
+    name: Denis Okutin
+    url: https://t.me/raiden4545
+
+
+servers:
+  - url: http://localhost:8081
+tags:
+  - name: User
+  - name: Task
+  - name: Solution
+
+paths:
+  /user/register:
+    post:
+      summary: Create new user
+      description: >
+        Creates a new user. Login - email should be unique.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - properties:
+                    login:
+                      $ref: '#/components/schemas/User/properties/login'
+                - properties:
+                    username:
+                      $ref: '#/components/schemas/User/properties/username'
+                - properties:
+                    password:
+                      $ref: '#/components/schemas/Password'
+      tags: 
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400': 
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                  type: string
+        '403': 
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                  type: string
+        default:
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                  type: string         
+  /user/login:
+    post:
+      summary: Login user
+      description: >
+        Logins an existing user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - properties:
+                    login:
+                      $ref: '#/components/schemas/User/properties/login'
+                - properties:
+                    username:
+                      $ref: '#/components/schemas/User/properties/username'
+                - properties:
+                    password:
+                      $ref: '#/components/schemas/Password'
+      tags: 
+        - User
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400': 
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                  type: string
+        '404': 
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                  type: string
+        default:
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                  type: string
+  /task/create:
+    post:
+      summary: Create new task
+      description: >
+        Creates a new task.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - properties:
+                    description:
+                      type: string
+                    name:
+                      type: string
+                    treshold:
+                      type: number
+                      format: float  
+      tags: 
+        - Task
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400': 
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                  type: string
+        default:
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                  type: string
+  /task/all:
+    get:
+      summary: Get all tasks
+      description: >
+        Get all tasks from db.
+      tags: 
+        - Task
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+        '400': 
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                  type: string
+        default:
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                  type: string
+  /solution/submit:
+    post:
+      summary: Create new solution
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - properties:
+                    user_id:
+                      type: integer
+                    task_id:
+                      type: integer  
+                    filename:
+                      type: string
+                    filedata:
+                      type: string  
+      tags: 
+        - Solution
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      sol_id:
+                        type: integer 
+                      source:
+                        type: string
+                      result:
+                        type: string
+        '400': 
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                  type: string
+        default:
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                  type: string
+  /solution/all:
+    post:
+      summary: Get all solutions
+      description: >
+        Get all solutions by user ans task id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - properties:
+                    user_id:
+                      type: integer
+                    task_id:
+                      type: integer  
+      tags: 
+        - Solution
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  tasks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Solution'
+        '400': 
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                  type: string
+        default:
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                  type: string                                                    
+components:
+  schemas:
+    Login:
+      type: string
+      format: email
+      pattern: '(\\w+)@(\\w+)(\\.(\\w+))+'
+      minLength: 3
+      maxLength: 30
+    Username:
+      type: string
+      minLength: 3
+      maxLength: 20
+    Password:
+      type: string
+      format: password
+      minLength: 8
+      maxLength: 30
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        login:
+          $ref: '#/components/schemas/Login'
+        username:
+          $ref: '#/components/schemas/Username'
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        treshold:
+          type: number
+          format: float
+        name:
+          type: string
+    Solution:
+      type: object
+      properties:
+        id:
+          type: integer
+        send_date:
+          type: string
+        sender_id:
+          type: integer
+        source:
+          type: string
+        tokens:
+          type: array
+        astTree:
+          type: string
+        task_id:
+          type: integer
+        result:
+          type: string
+        orig_solution:
+          type: integer              
+        language:
+          type: string         

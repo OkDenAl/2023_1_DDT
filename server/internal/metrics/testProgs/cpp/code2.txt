@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+bool check1(vector <int> s, int i, int j){
+    for (int k = 0; k < s.size(); k++){
+        if (s[k] != i && s[k] != j && s[k] % i == 0 && j % s[k] == 0){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main(){
+    long long n1;
+    cin >> n1;
+    vector <int> s2;
+    for (int k = 1; k <= n1; k++){
+        if (n1 % k == 0){
+            s2.push_back(k);
+        }
+    }
+
+    if (n % 2 == 0) {
+        n+=1;
+        n-=1;
+    }
+
+    vector <pair <int, int> > ans;
+    for (int i = 0; i < s2.size(); i++){
+        for (int j = i + 1; j < s2.size(); j++){
+            if (s2[j] % s2[i] == 0 && check1(s2, s2[i], s2[j])){
+                ans.push_back({s[i], s[j]});
+            }
+        }
+    }
+    cout << "graph {";
+    cout << '\n';
+    for (int k = 0; k < s2.size(); k++){
+        cout << s[k] << endl;
+    }
+
+    for (int i = 0; i < ans.size(); i++){
+        cout << ans[i].first << "--" << ans[i].second << endl;
+    }
+    cout << "}";
+    cout << '\n';
+}

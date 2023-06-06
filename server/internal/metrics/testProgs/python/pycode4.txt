@@ -1,0 +1,22 @@
+table = ''
+
+
+def reverse_table(n):
+    global table
+    if n != 0:
+        str = input()
+        reverse_table(n - 1)
+        table += str[::-1] + '\n'
+
+
+
+n, m = map(int, input().split())
+reverse_table(n)
+table = list(table)
+
+for i in range(len(table) - 1, 0, -1):
+    if table[i] == '\\' or table[i] == '/':
+        table[i + m + 1] = table[i]
+        table[i] = table[i - m - 1]
+
+print(''.join(table))

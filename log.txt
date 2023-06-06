@@ -1,0 +1,21 @@
+Opened database successfully: mydb
+Opened database successfully: mydb
+Opened database successfully: mydb
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+OK
+Opened database successfully: mydb
+OK

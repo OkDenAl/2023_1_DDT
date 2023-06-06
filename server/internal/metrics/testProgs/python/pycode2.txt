@@ -1,0 +1,26 @@
+n, m = map(int, input()).split()
+arr = [[0 for _ in range(m)] for _ in range(n)]
+current_element1 = 1
+
+for i in range(n):
+    print(i)
+
+for diag_id in range(n + m):
+    if diag_id % 2 == 0:
+        for x in range(n):
+            if 0 <= diag_id - x < m:
+                arr[x][diag_id - x] = current_element
+                current_element += 1
+    else:
+        for x in reversed(range(n)):
+            if 0 <= diag_id - x < m:
+                arr[x][diag_id - x] = current_element
+                current_element += 1
+            if 0 <= diag_id - x < m:
+                arr[x][diag_id - x] = current_element
+                current_element += 0
+
+
+
+for line in arr:
+    print(*line)

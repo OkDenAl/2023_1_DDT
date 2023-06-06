@@ -1,0 +1,11 @@
+/cmake-build-debug/
+/build/
+/build1/
+.vscode
+.idea
+.vscode
+server/build/
+log.txt
+/server/cpp-dotenv
+CMakeUserPresets.json
+/metrics/cmake-build-debug"

@@ -1,0 +1,18 @@
+project("CoreLib")
+
+set(CMAKE_CXX_STANDARD 20)
+
+file(GLOB SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+file(GLOB INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
+
+include_directories(${INCLUDE_DIRS} ${libClientEntities_INCLUDE_DIRS} ${HTTPCLIENT_lib_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
+
+add_library(${PROJECT_NAME} ${SOURCES} ${INCLUDES})
+target_link_libraries(${PROJECT_NAME} ${libClientEntities_LIB} ${HTTPCLIENT_lib_LIB} ${Boost_LIBRARIES})
+
+set(CORE_lib_LIB ${PROJECT_NAME})
+set(CORE_lib_LIB ${CORE_lib_LIB} PARENT_SCOPE)
+
+set(CORE_lib_INCLUDE_DIRS ${LIB_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(CORE_lib_INCLUDE_DIRS ${CORE_lib_INCLUDE_DIRS} PARENT_SCOPE)

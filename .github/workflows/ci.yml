@@ -1,0 +1,35 @@
+name: Cpp
+
+on:
+  push:
+      branches: [ "dev", "main" ]
+  pull_request:
+      branches: [ "dev", "main" ]
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  Format:
+    runs-on: ubuntu-latest
+    container: raiden454/cpp-app
+    steps:
+      - uses: actions/checkout@v3
+      - run: make format
+  Lint:
+    runs-on: ubuntu-latest
+    container: raiden454/cpp-app
+    needs: [Format]
+    steps:
+      - uses: actions/checkout@v3
+      - run: make lint        
+  build:
+    runs-on: ubuntu-latest
+    container: raiden454/cpp-app
+    steps:
+      - uses: actions/checkout@v3
+      - name: Building
+        run: make rebuild
+      - name: Run-Tests
+        run: make test   
